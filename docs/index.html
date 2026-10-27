@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>خلّي Claude يدير LinkedIn بتاعك: الـ LinkedIn Agent Skill ببلاش | Grow With Khalaf</title>
+<meta name="description" content="شرح بالمصري للـ LinkedIn Agent Skill من Jake Schincariol: 11 skill ببلاش لـ Claude بتكتب بوستات LinkedIn، وتقيّم بروفايلك من 100، وتخطط أسبوعك. وطريقة التسطيب خطوة بخطوة.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="خلّي Claude يدير LinkedIn بتاعك: الـ skill ببلاش">
+<meta property="og:description" content="11 skill ببلاش لـ LinkedIn من Jake Schincariol، وشرح التسطيب بالمصري من Grow With Khalaf.">
+<meta property="og:image" content="https://mohamedkhalafalla.github.io/gwk-linkedin-agent/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#00273C">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #00273C;
+  --navy-2: #0A3550;
+  --cyan: #16ECED;
+  --ice: #D2FFFF;
+  --orange: #FF660F;
+  --peach: #FAD9C6;
+  --white: #FFFFFF;
+  --ink: #00273C;
+  --muted: #48606E;
+  --line: #DCE6EA;
+  --soft: #F4FAFB;
+  --radius: 16px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; overflow-x: clip; }
+body {
+  margin: 0;
+  font-family: 'Cairo', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--white);
+  font-size: 18px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a { color: inherit; }
+bdi, .en { unicode-bidi: isolate; }
+code { font-family: var(--mono); font-size: .85em; background: var(--ice); color: var(--navy); padding: 1px 7px; border-radius: 6px; direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
+
+/* ---------- top bar ---------- */
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(0, 39, 60, .96); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(22, 236, 237, .14); }
+.topbar .in { max-width: 1180px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--white); text-decoration: none; font-weight: 900; direction: ltr; letter-spacing: .2px; }
+.brand .dot { width: 30px; height: 30px; border-radius: 9px; background: var(--cyan); color: var(--navy); display: grid; place-items: center; font-size: 15px; font-weight: 900; }
+.brand b { color: var(--cyan); }
+.btn { display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; padding: 12px 26px; font-weight: 800; font-size: 17px; text-decoration: none; border: 0; cursor: pointer; font-family: inherit; transition: transform .15s ease, box-shadow .15s ease; white-space: nowrap; }
+.btn:hover { transform: translateY(-1px); }
+.btn-cyan { background: var(--cyan); color: var(--navy); box-shadow: 0 0 34px rgba(22, 236, 237, .35); }
+.btn-ghost { background: transparent; color: var(--white); border: 1.5px solid rgba(255, 255, 255, .35); }
+.btn-navy { background: var(--navy); color: var(--white); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.topbar .btn { padding: 9px 20px; font-size: 15px; }
+
+/* ---------- hero ---------- */
+.hero {
+  background:
+    radial-gradient(rgba(255, 255, 255, .07) 2px, transparent 2px) 0 0 / 44px 44px,
+    radial-gradient(circle at 8% 4%, rgba(22, 236, 237, .24) 0%, transparent 42%),
+    var(--navy);
+  color: var(--white);
+  overflow: hidden;
+}
+.hero .in { max-width: 1180px; margin: 0 auto; padding: 44px 20px 0; display: grid; grid-template-columns: 1.25fr .75fr; gap: 24px; align-items: end; }
+.crumbs { font-size: 15px; color: rgba(255, 255, 255, .6); margin-bottom: 18px; }
+.crumbs span { margin: 0 6px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: var(--cyan); letter-spacing: .5px; border: 1px solid rgba(22, 236, 237, .4); border-radius: 999px; padding: 4px 14px; }
+.hero h1 { font-size: clamp(36px, 5.4vw, 62px); line-height: 1.3; font-weight: 900; margin: 18px 0 14px; }
+.hero h1 .hl { color: var(--orange); }
+.hero .lead { font-size: clamp(18px, 2vw, 22px); color: rgba(255, 255, 255, .82); margin: 0 0 26px; max-width: 640px; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+.byline { display: flex; align-items: center; gap: 12px; padding-bottom: 44px; font-size: 15px; color: rgba(255, 255, 255, .7); }
+.byline .av { width: 44px; height: 44px; border-radius: 50%; background: var(--cyan); color: var(--navy); display: grid; place-items: center; font-weight: 900; font-size: 18px; }
+.byline strong { display: block; color: var(--white); font-size: 16px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 4px; }
+.facts span::before { content: "✓"; color: var(--cyan); font-weight: 900; margin-left: 6px; }
+.hero-art { position: relative; align-self: end; display: flex; justify-content: center; min-height: 420px; }
+.hero-art img.me { width: min(420px, 100%); display: block; filter: drop-shadow(0 0 32px rgba(22, 236, 237, .35)); position: relative; z-index: 1; }
+.logos { position: absolute; top: 18px; inset-inline: 0; display: flex; justify-content: center; align-items: center; gap: 0; direction: ltr; z-index: 2; }
+.tile { width: 76px; height: 76px; border-radius: 20px; background: var(--white); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
+.tile img { width: 62%; height: 62%; }
+.link-line { width: 74px; height: 6px; background: repeating-linear-gradient(90deg, var(--cyan) 0 12px, transparent 12px 22px); border-radius: 4px; }
+
+/* ---------- layout ---------- */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 48px 20px 30px; display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 56px; }
+article { min-width: 0; max-width: 780px; }
+aside.toc { position: sticky; top: 90px; align-self: start; font-size: 15px; line-height: 1.6; }
+.toc h4 { font-size: 13px; letter-spacing: .6px; color: var(--muted); margin: 0 0 10px; font-weight: 800; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-right: 2px solid var(--line); }
+.toc li a { display: block; padding: 6px 14px; text-decoration: none; color: var(--muted); border-right: 2px solid transparent; margin-right: -2px; }
+.toc li a:hover { color: var(--navy); }
+.toc li a.on { color: var(--navy); font-weight: 800; border-right-color: var(--orange); }
+.toc-mobile { display: none; }
+
+article h2 { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.4; font-weight: 900; margin: 64px 0 14px; }
+article h2:first-of-type { margin-top: 8px; }
+article h2 .n { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--navy); color: var(--cyan); font-size: 20px; margin-left: 10px; vertical-align: 4px; }
+article h3 { font-size: 21px; font-weight: 800; margin: 34px 0 8px; }
+article p { margin: 0 0 16px; }
+article ul { padding-right: 22px; margin: 0 0 16px; }
+article li { margin-bottom: 6px; }
+.big { font-size: 20px; }
+.hl { color: var(--orange); }
+
+/* ---------- callouts ---------- */
+.callout { border-radius: var(--radius); padding: 20px 24px; margin: 24px 0; }
+.callout .label { font-size: 13px; font-weight: 900; letter-spacing: .6px; margin-bottom: 4px; display: block; }
+.callout p:last-child { margin-bottom: 0; }
+.callout.warn { background: var(--peach); }
+.callout.warn .label { color: #B8430A; }
+.callout.tip { background: var(--ice); }
+.callout.tip .label { color: var(--navy); }
+.callout.dark { background: var(--navy); color: var(--white); }
+.callout.dark .label { color: var(--cyan); }
+
+/* ---------- tables ---------- */
+.tbl { overflow-x: auto; margin: 18px 0 26px; border: 1px solid var(--line); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.7; }
+th { background: var(--navy); color: var(--white); text-align: right; font-weight: 800; font-size: 13px; letter-spacing: .5px; padding: 12px 16px; white-space: nowrap; }
+td { padding: 14px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+tr:nth-child(even) td { background: var(--soft); }
+.agent { display: inline-block; direction: ltr; unicode-bidi: isolate; font-weight: 800; background: var(--ice); color: var(--navy); padding: 2px 10px; border-radius: 8px; white-space: nowrap; font-size: 15px; }
+.gloss { display: block; font-size: 13px; color: var(--muted); margin-top: 4px; }
+.pts { font-weight: 900; color: var(--orange); font-size: 20px; text-align: center; }
+.num { font-weight: 900; color: var(--orange); }
+.group-title { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 800; margin: 28px 0 0; }
+.group-title::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--cyan); box-shadow: 0 0 0 4px var(--ice); }
+
+/* ---------- prompt + code ---------- */
+.prompt { border: 1.5px solid var(--navy); border-radius: var(--radius); margin: 18px 0 26px; overflow: hidden; }
+.prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--navy); color: var(--white); padding: 10px 14px 10px 10px; }
+.prompt-head .t { font-weight: 800; font-size: 15px; }
+.prompt-head .t small { color: var(--cyan); font-size: 12px; letter-spacing: .6px; margin-left: 8px; }
+.copy { font-family: inherit; font-weight: 800; font-size: 14px; background: var(--cyan); color: var(--navy); border: 0; border-radius: 999px; padding: 6px 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.copy.done { background: var(--white); }
+.prompt pre { margin: 0; padding: 18px 20px; white-space: pre-wrap; word-break: break-word; font-family: 'Cairo', sans-serif; font-size: 16px; line-height: 1.9; background: var(--soft); unicode-bidi: plaintext; }
+.prompt pre .ph { background: var(--peach); border-radius: 5px; padding: 0 4px; font-weight: 700; }
+.code { background: #001B2A; border-radius: var(--radius); margin: 14px 0 22px; overflow: hidden; }
+.code .prompt-head { background: #00121C; }
+.code pre { margin: 0; padding: 16px 20px; color: var(--ice); font-family: var(--mono); font-size: 15px; line-height: 1.8; direction: ltr; text-align: left; overflow-x: auto; white-space: pre; }
+.code pre .c { color: #6E8C99; }
+
+/* ---------- install tabs ---------- */
+.tabs { display: flex; gap: 6px; background: var(--soft); border: 1px solid var(--line); padding: 6px; border-radius: 999px; width: fit-content; max-width: 100%; margin: 18px 0 8px; }
+.tabs button { font-family: inherit; font-size: 16px; font-weight: 800; border: 0; background: transparent; color: var(--muted); padding: 8px 20px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.tabs button[aria-selected="true"] { background: var(--navy); color: var(--white); }
+.panel[hidden] { display: none; }
+.steps { counter-reset: s; list-style: none; padding: 0 !important; margin: 18px 0 !important; }
+.steps > li { counter-increment: s; position: relative; padding: 2px 52px 14px 0; margin: 0 !important; }
+.steps > li::before { content: counter(s); position: absolute; right: 0; top: 0; width: 36px; height: 36px; border-radius: 50%; background: var(--ice); color: var(--navy); font-weight: 900; display: grid; place-items: center; font-size: 17px; }
+.steps > li:not(:last-child)::after { content: ""; position: absolute; right: 17px; top: 40px; bottom: 4px; width: 2px; background: var(--line); }
+.download { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; background: var(--navy); color: var(--white); border-radius: var(--radius); padding: 20px 24px; margin: 20px 0; }
+.download .meta { font-size: 15px; color: rgba(255, 255, 255, .72); line-height: 1.6; }
+.download .meta strong { color: var(--white); font-size: 17px; display: block; direction: ltr; text-align: right; }
+
+/* ---------- agents cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 18px 0; }
+.card { border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; background: var(--white); }
+.card .agent { margin-bottom: 6px; }
+a.card { display: block; text-decoration: none; color: inherit; transition: border-color .15s ease; }
+a.card:hover { border-color: var(--navy); }
+.card p { margin: 0; font-size: 15.5px; line-height: 1.75; color: #1D3B4B; }
+
+/* ---------- footer ---------- */
+.end {
+  background:
+    radial-gradient(rgba(255, 255, 255, .07) 2px, transparent 2px) 0 0 / 44px 44px,
+    radial-gradient(circle at 92% 0%, rgba(22, 236, 237, .22) 0%, transparent 40%),
+    var(--navy);
+  color: var(--white); margin-top: 40px;
+}
+.end .in { max-width: 1180px; margin: 0 auto; padding: 56px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.end h3 { font-size: clamp(26px, 3vw, 34px); font-weight: 900; margin: 0 0 6px; line-height: 1.4; }
+.end p { margin: 0; color: rgba(255, 255, 255, .75); }
+.end .row { display: flex; flex-wrap: wrap; gap: 12px; }
+.foot { text-align: center; font-size: 14px; color: rgba(255, 255, 255, .55); padding: 18px 20px 26px; border-top: 1px solid rgba(255, 255, 255, .08); direction: ltr; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; padding-top: 28px; }
+  aside.toc { display: none; }
+  .toc-mobile { display: block; border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 18px; margin-bottom: 26px; background: var(--soft); }
+  .toc-mobile summary { cursor: pointer; font-weight: 800; padding: 10px 0; }
+  .toc-mobile ol { margin: 0 0 12px; padding-right: 22px; font-size: 16px; line-height: 1.9; }
+  .toc-mobile a { text-decoration: none; color: var(--navy); }
+  .hero .in { grid-template-columns: 1fr; padding-top: 28px; }
+  .hero-art { min-height: 0; order: -1; display: none; }
+  .byline { padding-bottom: 36px; }
+}
+/* On phones every table row becomes a card, so nothing scrolls sideways. */
+@media (max-width: 640px) {
+  .tbl { border: 0; border-radius: 0; overflow: visible; }
+  .tbl table, .tbl tbody, .tbl tr, .tbl td { display: block; width: 100%; }
+  .tbl thead { display: none; }
+  .tbl tr { border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; background: var(--white) !important; }
+  .tbl tr td { background: none !important; border: 0; padding: 3px 0; }
+  .tbl td:first-child { font-weight: 700; }
+  .tbl td[data-l]:not(:first-child):not(:nth-child(2))::before { content: attr(data-l) ": "; color: var(--muted); font-size: 13px; font-weight: 800; }
+  .tbl td.pts { display: inline-block; width: auto; font-size: 17px; text-align: right; }
+  .tbl td.pts::after { content: " نقطة"; font-size: 13px; color: var(--muted); }
+  .tbl tr:has(td.pts) td:first-child { display: inline-block; width: auto; margin-left: 10px; }
+  .gloss { display: inline; margin: 0 8px 0 0; }
+}
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .topbar .btn { display: none; }
+  .hero .ctas .btn { width: 100%; justify-content: center; }
+  .callout { padding: 16px 18px; }
+  td, th { padding: 11px 12px; }
+  table { font-size: 15px; }
+  .tabs { width: 100%; }
+  .tabs button { flex: 1; padding: 8px 10px; font-size: 15px; }
+  .steps > li { padding-right: 46px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="#top"><span class="dot">G</span><span>Grow With <b>Khalaf</b></span></a>
+    <a class="btn btn-cyan" href="#install">سطّب الـ skills</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="in">
+    <div>
+      <div class="crumbs">موارد ببلاش<span>/</span>LinkedIn Agent Skill</div>
+      <span class="eyebrow">دليل خطوة بخطوة</span>
+      <h1>خلّي Claude يدير <span class="hl">LinkedIn</span> بتاعك… بـ&nbsp;11&nbsp;skill ببلاش</h1>
+      <p class="lead">skills بتكتبلك البوستات، وتقيّم بروفايلك من 100، وتخطط أسبوعك، وتساعدك تحوّل الكومنتات والرسايل لعملاء. وإنت اللي بتراجع وتنزّل.</p>
+      <div class="ctas">
+        <a class="btn btn-cyan" href="#install">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          طريقة التسطيب
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Jakeschincariol/linkedin-agent-skill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          الريبو الأصلي على GitHub
+        </a>
+      </div>
+      <div class="byline">
+        <div class="av">K</div>
+        <div>
+          <strong>الشرح من Grow With Khalaf · الـ skills من عمل Jake Schincariol</strong>
+          <div class="facts"><span>ببلاش</span><span>رخصة MIT</span><span>من غير تسجيل</span><span>من غير API key</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="logos">
+        <div class="tile"><img src="assets/claude.svg" alt=""></div>
+        <div class="link-line"></div>
+        <div class="tile"><img src="assets/linkedin.svg" alt=""></div>
+      </div>
+      <img class="me" src="assets/presenter.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <article>
+
+    <details class="toc-mobile">
+      <summary>في الصفحة دي</summary>
+      <ol data-toc></ol>
+    </details>
+
+    <p class="big">الـ <b>LinkedIn Agent Skill</b> هي باكدج ببلاش فيها 11 skill لـ Claude عشان تدير بيها حساب LinkedIn. اعتبرها 11 agent، كل واحد ليه شغلانة: يكتبلك البوست، يقيّم بروفايلك، يخطط أسبوعك، يحوّل الفيديو أو الـ newsletter لبوستات، ويساعدك ترد على الكومنتات والرسايل اللي ممكن تتحول لشغل.</p>
+
+    <div class="callout dark">
+      <span class="label">مين عملها</span>
+      <p>الـ skills دي من عمل <b>Jake Schincariol</b> (<a href="https://opusjake.ai" target="_blank" rel="noopener"><bdi>opusjake.ai</bdi></a>)، وهي على <a href="https://github.com/Jakeschincariol/linkedin-agent-skill" target="_blank" rel="noopener">GitHub</a> برخصة MIT، يعني ببلاش لأي حد يستخدمها ويعدّل فيها. إحنا في Grow With Khalaf مش اللي عملناها ومش تابعين له. اللي عملناه هو الشرح ده بالمصري، ونسخ zip جاهزة لـ claude.ai فيها نفس الملفات بالظبط ومعاها الرخصة الأصلية.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="label">مش بيدخل على حساب LinkedIn بتاعك ولا بينزّل حاجة</span>
+      <p>كل skill بتطلّعلك نص جاهز تنسخه وتنزّله بإيدك. ده مقصود: اتفاقية استخدام LinkedIn بتمنع الأدوات اللي بتنشر أو بتعلّق أو بتبعت رسايل بدالك، والحسابات اللي بتستخدمها ممكن تتقيّد.</p>
+    </div>
+
+    <!-- ===== skills ===== -->
+    <h2 id="skills">الـ 11 skill بيعملوا إيه</h2>
+    <p>كل skill ليها أمر بتكتبه في Claude، زي <code>/li-post</code>. وتقدر كمان تطلب عادي، زي «اكتبلي بوست LinkedIn عن…»، وهو هيختار الـ skill المناسبة لوحده.</p>
+
+    <div class="group-title">الكتابة</div>
+    <div class="tbl"><table>
+      <thead><tr><th>الأمر</th><th>بيعمل إيه</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">/li-post</span></td><td>بياخد فكرة واحدة ويطلّعها بوست. بيديك 3 hooks من <span class="num">21</span> صيغة، ويكتب البوست كامل على أحسنهم، ويعدّيه على الـ humanizer قبل ما تشوفه.</td></tr>
+        <tr><td><span class="agent">/li-repurpose</span></td><td>بياخد فيديو أو podcast أو newsletter أو مقال أو transcript، ويطلّع منه أسبوع بوستات. بيسحب كل رقم وقصة وجملة تتقال الأول، وبعدين يكتب كل بوست بحيث يتفهم لوحده.</td></tr>
+        <tr><td><span class="agent">/li-carousel</span></td><td>بيكتب الـ document posts (السلايدز اللي بتتقلّب على LinkedIn) سلايد سلايد، ومعاها الغلاف اللي يخلّي الناس تقلّب، وبعدين يعملك الـ PDF ترفعه.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="group-title">التفاعل وتسخين الـ leads</div>
+    <div class="tbl"><table>
+      <thead><tr><th>الأمر</th><th>بيعمل إيه</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">/li-plan</span></td><td>بيخطط أسبوعك: تنزّل إيه، وإمتى، وأهم 10 أشخاص تتفاعل معاهم. وبيحفظ الخطة عشان باقي الـ skills تقرا منها.</td></tr>
+        <tr><td><span class="agent">/li-comment</span></td><td>بيكتب كومنتات على بوستات الناس التانية بتضيف حاجة. بيختار من 9 أنواع كومنتات حسب البوست نفسه، وعمره ما بيكتب «Great post!».</td></tr>
+        <tr><td><span class="agent">/li-reply</span></td><td>بيرد على الكومنتات اللي تحت بوستاتك. بيصنّفها الأول: lead، كلام مفيد، زميل، تشجيع، ودوشة. وبيرد بالترتيب ده عشان المهمين ياخدوا رد الأول.</td></tr>
+        <tr><td><span class="agent">/li-dm</span></td><td>بيكتب رسالة طلب التواصل (أقل من 200 حرف)، وأول رسالة بعد ما يقبل، ورسالتين متابعة. اتنين بس.</td></tr>
+        <tr><td><span class="agent">/li-inbox</span></td><td>بيرتّب الرسايل: عملاء، recruiters، زملاء، طلبات، و spam. وبيكتب ردود للي يستاهل بس، وبيقولك أنهي رسايل جاية من أدوات بيع أوتوماتيك وعرف إزاي.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="group-title">البروفايل والنتايج</div>
+    <div class="tbl"><table>
+      <thead><tr><th>الأمر</th><th>بيعمل إيه</th><th>إمتى</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">/li-profile</span></td><td>بيقيّم بروفايلك من <span class="num">100</span> على 12 جزء، وبيعيد كتابة الأجزاء اللي خسرت نقط أكتر الأول.</td><td>مرة، وكل ما عرضك يتغير</td></tr>
+        <tr><td><span class="agent">/li-audit</span></td><td>بيراجع البوستات اللي نزّلتها قبل كده ويرتّبها بنسبة التفاعل (اللايكات والكومنتات والـ reposts على عدد المشاهدات)، ويقولك تكمّل في إيه وتبطّل إيه.</td><td>مرة في الشهر</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="group-title">الجودة</div>
+    <div class="tbl"><table>
+      <thead><tr><th>الأمر</th><th>بيعمل إيه</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">/li-human</span></td><td>الـ humanizer. بيشيل الـ em dashes وكلمات الـ AI المستهلكة والحروف المخفية من أي مسودة، وبعدين يقيّمها من 100 على قد إيه شبه كلام بني آدم. باقي الـ skills بتشغّله لوحدها.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout tip">
+      <span class="label">الـ skills بتشارك نفس الملفات</span>
+      <p>كل حاجة بتتحفظ في فولدر واحد على جهازك: <code>~/.claude/linkedin/</code></p>
+      <ul>
+        <li><code>voice.md</code>: ملف صوتك، وكل الـ skills بتقرا منه.</li>
+        <li><code>plan.md</code>: خطة الأسبوع. بتكتبها <bdi>li-plan</bdi>، وبتقرا منها <bdi>li-post</bdi>.</li>
+        <li><code>log.md</code>: سجل كل بوست وافقت عليه، ومنه <bdi>li-audit</bdi> بيعرف أنهي hooks نفعت معاك.</li>
+      </ul>
+    </div>
+
+    <!-- ===== hooks ===== -->
+    <h2 id="hooks">الـ 21 صيغة hook</h2>
+    <p>الـ hook هو أول سطر في البوست. LinkedIn بيقطع البوست على الموبايل بعد حوالي 140 حرف، فالسطر ده لازم يشتغل لوحده. <code>/li-post</code> بيختار 3 صيغ تناسب فكرتك، ويقولك هيستخدم أنهي واحدة.</p>
+    <p style="color:var(--muted);font-size:15px">أسامي الصيغ زي ما هي في الـ skill. الأمثلة كتبناها إحنا بالمصري لشغل B2B عشان الفكرة توصل، والأمثلة الأصلية بالإنجليزي في ملف <code>hooks.json</code>. والأرقام فيها للتوضيح بس.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>الصيغة</th><th>مثال</th><th>تنفع لإيه</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">1. Contrarian Take</span><span class="gloss">عكس اللي الكل بيقوله</span></td><td>«الكل بيقولك انزل بوست كل يوم. أنا نزلت 3 في الأسبوع لمدة سنة، وجالي طلبات عروض أسعار أكتر من أي حد في مجالي.»</td><td>إنك تبان صاحب رأي. أكتر صيغة بتجيب كومنتات</td></tr>
+        <tr><td><span class="agent">2. Number Reveal</span><span class="gloss">الأرقام بالظبط</span></td><td>«بعتنا 300 إيميل لمديرين مشتريات في شهر. 14 ردّوا، و3 بقوا عملاء.»</td><td>التجارب اللي ليها نتيجة تتعد</td></tr>
+        <tr><td><span class="agent">3. Mistake Confession</span><span class="gloss">اعتراف بغلطة</span></td><td>«عقد توريد من غير بند لغرامة التأخير كلّفنا 400 ألف جنيه السنة اللي فاتت.»</td><td>الثقة. الناس بتشارك البوستات اللي بتبان فيها غلطان</td></tr>
+        <tr><td><span class="agent">4. Before / After</span><span class="gloss">قبل وبعد</span></td><td>«من سنة كنا بنطلّع عرض السعر في 5 أيام. دلوقتي بيطلع في نفس اليوم. template واحد.»</td><td>إنك تثبت إنك مشيت الطريق اللي القارئ عايز يمشيه</td></tr>
+        <tr><td><span class="agent">5. The List Promise</span><span class="gloss">ليستة</span></td><td>«7 حاجات كان نفسي حد يقولهالي قبل ما أمضي أول عقد مع موزّع.»</td><td>الحفظ. أعلى نسبة save في الـ 21</td></tr>
+        <tr><td><span class="agent">6. Insider Secret</span><span class="gloss">سر من جوه المجال</span></td><td>«بعد 9 سنين في مبيعات المصانع، ده الجزء اللي محدش بيكتبه في إعلان الوظيفة.»</td><td>رأي وراه خبرة حقيقية، والسنين لازم تكون حقيقية</td></tr>
+        <tr><td><span class="agent">7. The Callout</span><span class="gloss">نداء مباشر</span></td><td>«لو لسه بتبعت عروض الأسعار PDF على الإيميل ومستني الرد، بطّل.»</td><td>بوستات قصيرة فيها نصيحة واحدة</td></tr>
+        <tr><td><span class="agent">8. Question Trap</span><span class="gloss">سؤال الموقف</span></td><td>«أكبر عميل عندك طلب خصم 30% ولمّح إنه هيمشي لو مخدهوش. هتعمل إيه؟»</td><td>كومنتات كتير. الناس بترد على المواقف، مش على «رأيكم؟»</td></tr>
+        <tr><td><span class="agent">9. Story Cold Open</span><span class="gloss">تبدأ من نص القصة</span></td><td>«"هنروح لمورد أرخص." الرسالة دي وصلت بعد 40 دقيقة من أحسن عرض سعر بعتناه السنة دي.»</td><td>البوستات الطويلة، والناس بتقعد تقراها أطول</td></tr>
+        <tr><td><span class="agent">10. The Receipt</span><span class="gloss">الإثبات</span></td><td>«3 عملاء، 11 يوم، ومن غير ولا مكالمة. دي الخطوات بالظبط.»</td><td>أي حاجة تقدر تثبتها</td></tr>
+        <tr><td><span class="agent">11. Myth Bust</span><span class="gloss">كسر خرافة</span></td><td>«السعر مش السبب إنك بتخسر المناقصات.»</td><td>إنك تغيّر نظرة الناس لمشكلة</td></tr>
+        <tr><td><span class="agent">12. The Comparison</span><span class="gloss">مقارنة</span></td><td>«شركة استشارات بـ 200 ألف جنيه، ولا Excel وويك إند. الويك إند كسب.»</td><td>بوستات الأدوات والسيستمات، وبتتشارك كتير</td></tr>
+        <tr><td><span class="agent">13. Permission Slip</span><span class="gloss">إذن</span></td><td>«من حقك ترفض عميل بيدفع كويس وتاعبك.»</td><td>توصل لناس برّه مجالك</td></tr>
+        <tr><td><span class="agent">14. Pattern Interrupt</span><span class="gloss">جملة توقّف الـ scroll</span></td><td>«خسرنا أكبر عميل.»</td><td>توقيف الـ scroll. المسافة الفاضية بتعمل الشغل</td></tr>
+        <tr><td><span class="agent">15. The Warning</span><span class="gloss">تحذير</span></td><td>«اجتماع "نتفق على التفاصيل" ده بياكل منك 6 ساعات في الأسبوع.»</td><td>ناس حاسة بالمشكلة ومش عارفة سببها</td></tr>
+        <tr><td><span class="agent">16. Good vs Great</span><span class="gloss">كويس وممتاز</span></td><td>«مندوب المبيعات الكويس بيجاوب على السؤال. الممتاز بيسأل السؤال ده اتسأل ليه.»</td><td>جمل الناس بتعملها screenshot</td></tr>
+        <tr><td><span class="agent">17. Time Anchor</span><span class="gloss">الوقت قبل وبعد</span></td><td>«كتابة بوستات الأسبوع كانت بتاخد مني 5 ساعات. دلوقتي 20 دقيقة.»</td><td>بوستات الأدوات والـ automation وشرح الخطوات</td></tr>
+        <tr><td><span class="agent">18. The Unpopular Rule</span><span class="gloss">قاعدة مش شعبية</span></td><td>«مفيش عرض سعر من غير مكالمة 15 دقيقة الأول. أبدًا.»</td><td>إنك تحدد مكانك، وتجيب العميل الصح وتبعد الغلط</td></tr>
+        <tr><td><span class="agent">19. Curiosity Gap</span><span class="gloss">فضول</span></td><td>«أحسن مندوب مبيعات عيّنته سقط في الانترفيو.»</td><td>يخلّي الناس تدوس «see more»</td></tr>
+        <tr><td><span class="agent">20. The Walk-Away</span><span class="gloss">مشيت وكسبت</span></td><td>«سبنا أكبر عميل بيدفع في يناير. الإيرادات زادت 30%.»</td><td>بوستات المبادئ اللي وراها نتيجة في الشغل</td></tr>
+        <tr><td><span class="agent">21. The Direct Value</span><span class="gloss">قيمة على طول</span></td><td>«دي الرسالة اللي 4 سطور اللي رجّعت بيها 3 صفقات كانت ماتت. خدها.»</td><td>الـ lead magnets وبوستات «اكتب كلمة في الكومنت». أعلى تحويل في الـ 21</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ===== profile ===== -->
+    <h2 id="profile">تقييم البروفايل من 100 بيبص على إيه</h2>
+    <p><code>/li-profile</code> بيقيّم 12 جزء في بروفايلك. وأغلب البروفايلات أول مرة بتجيب في التلاتينات أو الأربعينات، فمتتخضّش.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>الجزء</th><th>النقط</th><th>الدرجة الكاملة شكلها إيه</th></tr></thead>
+      <tbody>
+        <tr><td><span class="agent">Headline</span></td><td class="pts">12</td><td>بيقول بتساعد مين وإيه اللي بيتغير عندهم، وفيه دليل واحد. مش المسمى الوظيفي، وبيستخدم الـ 220 حرف كلهم.</td></tr>
+        <tr><td><span class="agent">About، أول سطرين</span></td><td class="pts">10</td><td>بيسمّوا مشكلة القارئ. دول اللي بيبانوا قبل «see more» عند أغلب الناس.</td></tr>
+        <tr><td><span class="agent">About، الباقي</span></td><td class="pts">10</td><td>مكتوب لشخص واحد: مشكلته، إنت بتعمل إيه، رقم واحد كدليل، ويعمل إيه بعد كده.</td></tr>
+        <tr><td><span class="agent">الوظيفة الحالية</span></td><td class="pts">10</td><td>سطر واحد عن شغلك، وبعده 2 أو 3 نتايج بأرقام. المهام مش نتايج.</td></tr>
+        <tr><td><span class="agent">Activity</span></td><td class="pts">10</td><td>نزّلت بوست أو كومنت في آخر 7 أيام.</td></tr>
+        <tr><td><span class="agent">Featured</span></td><td class="pts">8</td><td>أحسن بوست ليك، ودليل على شغلك، وطريقة يتواصلوا بيها معاك.</td></tr>
+        <tr><td><span class="agent">Experience</span></td><td class="pts">8</td><td>آخر وظيفتين بالتفصيل، وأي حاجة أقدم من 10 سنين في سطر واحد.</td></tr>
+        <tr><td><span class="agent">Recommendations</span></td><td class="pts">8</td><td>3 على الأقل من آخر سنتين، وكل واحدة بتذكر نتيجة حقيقية.</td></tr>
+        <tr><td><span class="agent">Banner</span></td><td class="pts">6</td><td>سطر بيقول بتعمل إيه وإزاي يوصلولك. مش الخلفية الافتراضية.</td></tr>
+        <tr><td><span class="agent">Photo</span></td><td class="pts">6</td><td>وشك ماليّ أغلب الصورة، وعينيك باينة، ومتصورة في آخر سنتين.</td></tr>
+        <tr><td><span class="agent">Skills</span></td><td class="pts">6</td><td>أول 3 skills هما الـ 3 اللي عايز الناس تشغّلك عشانهم.</td></tr>
+        <tr><td><span class="agent">Contact</span></td><td class="pts">6</td><td>لينك بروفايل مخصص، وإيميل أو لينك حجز شغال.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ===== humanizer ===== -->
+    <h2 id="humanizer">الـ humanizer بيشتغل إزاي</h2>
+    <p><code>/li-human</code> هو اللي بيخلّي بوستاتك متطلعش شبه بوستات الـ AI اللي مالية LinkedIn. جواه سكربتين Python صغيرين (Python لغة برمجة ببلاش جهازك بيشغّلها في الخلفية). بيشتغلوا على جهازك، ومفيش أي حاجة بتترفع لأي مكان.</p>
+    <h3>بيصلّح لوحده</h3>
+    <ul>
+      <li><b>الحروف المخفية</b> اللي أدوات الـ AI بتسيبها في النص. مش بتشوفها، بس بتفضل موجودة بعد الـ copy والـ paste.</li>
+      <li><b>علامات الترقيم:</b> الـ em dash بيبقى فاصلة، والعلامات المقوّسة بتبقى عادية.</li>
+      <li><b>113 كلمة وجملة مستهلكة</b> زي <bdi>delve</bdi>، <bdi>leverage</bdi>، <bdi>seamless</bdi>، <bdi>let that sink in</bdi>. وكل واحدة بتتبدّل بكلمة عادية.</li>
+    </ul>
+    <h3>بيعلّم عليه وبيسيبهولك</h3>
+    <p>جمل زي «مش بس X، ده Y»، والليستات اللي فيها 3 حاجات دايمًا، والأسئلة اللي كلمة واحدة زي «النتيجة؟»، وحيطة الـ hashtags، و«رأيكم؟» في الآخر، والجمل اللي كلها نفس الطول. دي محتاجة بني آدم يعيد كتابتها، فبيشاورلك عليها وإنت تصلّحها (أو تطلب من Claude).</p>
+    <h3>وبعدها بيقيّم المسودة من 100 على 5 حاجات</h3>
+    <p>قد إيه طول جملك متنوع، وعدد الأرقام والأسامي الحقيقية، وكام كلمة AI لسه موجودة، وعلامات الترقيم والحروف المخفية، وهل الكلام شبه واحد بيتكلم. البوست لازم ياخد 70 أو أكتر، ومفيش ولا واحدة من الخمسة تحت 55، عشان يعدّي.</p>
+    <div class="callout warn">
+      <span class="label">مش هيوعدك إن الكلام «مش هيتكشف»</span>
+      <p>الدرجات دي من حسابات الـ skill نفسها، على نفس الإشارات اللي أدوات كشف الـ AI بتدوّر عليها. هي مش GPTZero ولا Originality، ومحدش يقدر يوعدك بأمانة إن كلامك هيعدّي منهم.</p>
+    </div>
+    <div class="callout tip">
+      <span class="label">لو بتكتب بالعربي</span>
+      <p>ليستة الكلمات المستهلكة جوه الـ skill إنجليزي. لو بوستك عربي، لسه هيشيل الحروف المخفية ويظبط علامات الترقيم، بس اطلب من Claude كمان يشيل عبارات زي «في عالم اليوم المتسارع» و«لا شك أن» و«دعونا نتعمق». ولو عايز، ضيفهم بنفسك في ملف <code>slop.json</code>.</p>
+    </div>
+
+    <!-- ===== before ===== -->
+    <h2 id="before">قبل ما تبدأ</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>محتاج إيه</th><th>ليه</th></tr></thead>
+      <tbody>
+        <tr><td><b>Claude Code</b> (جوه تطبيق Claude على الكمبيوتر)</td><td>ده المكان اللي الباكدج كلها بتشتغل فيه صح. نزّل التطبيق من <a href="https://claude.com/download" target="_blank" rel="noopener"><bdi>claude.com/download</bdi></a>، ودوس على تبويب <b>Code</b>، واختار <b>Local</b>. محتاج اشتراك مدفوع في Claude.</td></tr>
+        <tr><td><b>Python 3</b></td><td>عشان سكربتات الـ humanizer. لو مش موجود، Claude هيسطّبه.</td></tr>
+        <tr><td><b>3 بوستات</b> إنت كاتبهم</td><td>عشان يتعلم صوتك.</td></tr>
+        <tr><td><b>ملف الـ analytics</b> من LinkedIn (اختياري)</td><td>عشان <code>/li-audit</code>. من LinkedIn: Analytics، بعدين Content، بعدين Export.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip">
+      <span class="label">بتستخدم Claude على المتصفح بس؟</span>
+      <p>ينفع ترفع الـ skills كـ zip على claude.ai، والخطوات في تبويب «claude.ai» تحت. هتشتغل كويس، بس الملفات المشتركة (<code>voice.md</code> وخطة الأسبوع والسجل) مش بتتحفظ بين الشاتات، فحطهم في Project.</p>
+    </div>
+
+    <!-- ===== step 1 ===== -->
+    <h2 id="install"><span class="n">1</span>سطّب الـ skills</h2>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" aria-controls="p-code" id="t-code">Claude Code</button>
+      <button role="tab" aria-selected="false" aria-controls="p-web" id="t-web">claude.ai أو التطبيق</button>
+    </div>
+
+    <div class="panel" id="p-code" role="tabpanel" aria-labelledby="t-code">
+      <p>افتح Claude Code والصق البرومبت ده:</p>
+      <div class="prompt">
+        <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 1: التسطيب</span><button class="copy">انسخ</button></div>
+        <pre>https://github.com/Jakeschincariol/linkedin-agent-skill
+
+سطّب الـ 11 skill اللي في الريبو ده globally عشان أستخدمهم في أي project: انسخ كل فولدر <bdi dir="ltr">skills/li-*</bdi> لـ <bdi dir="ltr">~/.claude/skills/</bdi>
+واتأكد إن Python 3 متسطّب، ولو مش موجود سطّبه على نظام جهازي.
+
+لما تخلص، قولّي الـ 11 أمر، واتأكد إن <bdi dir="ltr">/li-post</bdi> شغال وإن <bdi dir="ltr">/li-human</bdi> بيقدر يشغّل سكربتات الـ Python بتاعته.</pre>
+      </div>
+      <p>أو اكتب الأمرين دول في الـ Terminal (البرنامج اللي على جهازك اللي بتكتب فيه أوامر):</p>
+      <div class="code">
+        <div class="prompt-head"><span class="t"><small>TERMINAL</small>أمر</span><button class="copy">انسخ</button></div>
+        <pre>git clone https://github.com/Jakeschincariol/linkedin-agent-skill.git
+cp -r linkedin-agent-skill/skills/li-* ~/.claude/skills/</pre>
+      </div>
+      <p>أو سطّبها كـ plugin من جوه Claude Code:</p>
+      <div class="code">
+        <div class="prompt-head"><span class="t"><small>CLAUDE CODE</small>أمر</span><button class="copy">انسخ</button></div>
+        <pre>/plugin marketplace add Jakeschincariol/linkedin-agent-skill
+/plugin install linkedin-agent</pre>
+      </div>
+      <div class="callout tip">
+        <span class="label">بعد التسطيب</span>
+        <p>اقفل Claude Code وافتحه تاني. اكتب <code>/</code> وهتلاقي أوامر <code>li-</code> في الليستة.</p>
+      </div>
+    </div>
+
+    <div class="panel" id="p-web" role="tabpanel" aria-labelledby="t-web" hidden>
+      <div class="download">
+        <a class="btn btn-cyan" href="downloads/linkedin-agent-all.zip" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          نزّل الـ 11 skill
+        </a>
+        <div class="meta"><strong>linkedin-agent-all.zip</strong>جواه 11 ملف zip، واحد لكل skill، ومعاهم <bdi>voice.md</bdi> والرخصة.</div>
+      </div>
+      <ol class="steps">
+        <li>نزّل الملف وافتحه. هتلاقي جواه 11 ملف zip، <b>ارفعهم زي ما هما من غير ما تفكّهم</b>.</li>
+        <li>افتح <b>Settings ← Capabilities</b> وشغّل <b>Code execution and file creation</b>. الـ skills مش بتشتغل من غيره.</li>
+        <li>روح على <b>Customize ← Skills</b>، أو افتح <a href="https://claude.ai/customize/skills" target="_blank" rel="noopener"><bdi>claude.ai/customize/skills</bdi></a>.</li>
+        <li>دوس على <b>+</b>، وبعدين <b>Create skill</b>، واختار <b>Upload a skill</b>، وارفع أول zip. كرّر لكل واحد.</li>
+        <li>اعمل Project جديد وارفع فيه <code>voice.md</code> بعد ما تملاه (الخطوة 2)، واشتغل جوه الـ Project ده.</li>
+      </ol>
+      <p>مش لازم ترفع الـ 11. لو مستعجل، ابدأ بـ <code>li-human</code> و <code>li-post</code> و <code>li-profile</code> و <code>li-plan</code>:</p>
+      <div class="cards">
+        <a class="card" href="downloads/li-human.zip" download><span class="agent">li-human</span><p>الـ humanizer، وباقي الـ skills بتعتمد عليه</p></a>
+        <a class="card" href="downloads/li-post.zip" download><span class="agent">li-post</span><p>كتابة البوست بالـ 21 صيغة</p></a>
+        <a class="card" href="downloads/li-profile.zip" download><span class="agent">li-profile</span><p>تقييم البروفايل من 100</p></a>
+        <a class="card" href="downloads/li-plan.zip" download><span class="agent">li-plan</span><p>خطة الأسبوع وأهم 10 أشخاص</p></a>
+      </div>
+      <div class="callout tip">
+        <span class="label">على Mac والـ Safari فكّ الملف لوحده؟</span>
+        <p>دوس كليك يمين على فولدر الـ skill (زي <code>li-post</code>) واختار <b>Compress</b>، وارفع الـ zip اللي طلع. ولو حسابك Team أو Enterprise ومش لاقي رفع الـ skills، يبقى الـ admin قافله، فكلّمه.</p>
+      </div>
+      <p style="color:var(--muted);font-size:15px">ملفات الـ zip دي نفس ملفات الريبو الأصلي بالظبط من غير أي تعديل، ومعاها رخصة MIT بتاعة Jake Schincariol. أماكن الإعدادات ممكن تتغير، فلو ملقتهاش ارجع لـ <a href="https://support.claude.com/en/articles/12512180-using-skills-in-claude" target="_blank" rel="noopener">صفحة الـ Skills في Claude Help Center</a>.</p>
+    </div>
+
+    <!-- ===== step 2 ===== -->
+    <h2 id="voice"><span class="n">2</span>علّمه صوتك</h2>
+    <p>كل skill بتقرا ملف اسمه <code>voice.md</code>، فاعمله قبل أي حاجة. لو اتخطيته، كل بوست هيطلع شبه بوستات الناس كلها. اختار 3 بوستات شبهك أوي والصقهم في البرومبت ده:</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 2: اعمل ملف صوتي</span><button class="copy">انسخ</button></div>
+      <pre>اكتبلي ملف voice.md بتاع الـ LinkedIn Agent skills من الـ 3 بوستات اللي تحت. استخدم القالب اللي في الريبو (<bdi dir="ltr">templates/voice.md</bdi>)، واحفظه في <bdi dir="ltr">~/.claude/linkedin/voice.md</bdi>
+
+عنّي:
+- اسمي: <span class="ph">[اسمك]</span>
+- بعمل إيه في جملة: <span class="ph">[شغلك]</span>
+- بكتب لمين بالظبط: <span class="ph">[مثلًا: «مديرين المشتريات في مصانع الأغذية في مصر»، مش «المحترفين»]</span>
+- ببيع إيه: <span class="ph">[عرضك]</span>
+- لغة البوستات: <span class="ph">[مصري / فصحى / إنجليزي / مكس]</span>
+- الإيموجي: <span class="ph">[أبدًا / نادرًا / عادي]</span>
+- 3 حاجات أنا مؤمن بيها وناس من جمهوري مش موافقين عليها: <span class="ph">[آراءك]</span>
+- أرقام ونتايج حقيقية مسموح أقولها: <span class="ph">[أدلتك]</span>
+- مواضيع أو عملاء أو كلام ممنوع: <span class="ph">[أي حاجة مينفعش تتنشر]</span>
+
+البوستات:
+1. <span class="ph">[الصق البوست]</span>
+2. <span class="ph">[الصق البوست]</span>
+3. <span class="ph">[الصق البوست]</span>
+
+وريني الملف قبل ما تحفظه، واسألني عن أي حاجة مش متأكد منها، خصوصًا الكلمات اللي عمري ما أقولها.</pre>
+    </div>
+    <p>جزء الأرقام الحقيقية مهم. الـ skills عمرها ما بتألّف نتايج. لو البوست محتاج رقم مإدتهوش، هتلاقي <code>{{your number}}</code> في المسودة عشان تملاه إنت.</p>
+
+    <!-- ===== step 3 ===== -->
+    <h2 id="score"><span class="n">3</span>قيّم بروفايلك</h2>
+    <p>اعمل screenshot لأول بروفايلك على LinkedIn، أو انسخ الـ headline والـ About وآخر وظيفتين.</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 3: تقييم البروفايل</span><button class="copy">انسخ</button></div>
+      <pre>/li-profile
+
+ده بروفايلي: <span class="ph">[ارفع screenshot، أو الصق الـ headline والـ About وآخر وظيفتين]</span>. البانر عليه <span class="ph">[المكتوب عليه، أو «الافتراضي»]</span>. والـ Featured فيه <span class="ph">[اللي فيه، أو «فاضي»]</span>.
+
+قيّمه من 100، وبعدين اديني التعديلات بالترتيب، الأهم الأول.</pre>
+    </div>
+    <p>هتاخد 3 اختيارات للـ headline، ونص جاهز تلزقه في كل جزء. أسرع مكسب غالبًا الـ headline والـ Featured. الـ Featured الفاضي بيخسّرك 8 نقط، وده الجزء الوحيد في الصفحة اللي إنت متحكم فيه بالكامل.</p>
+
+    <!-- ===== step 4 ===== -->
+    <h2 id="plan"><span class="n">4</span>خطّط أسبوعك</h2>
+    <p>اديله حاجات حقيقية حصلت الأسبوع ده. «نصايح مبيعات» هتطلّعلك بوستات عامة. «خسرنا عرض سعر عشان بعتناه بعد المنافس بيومين» هتطلّعلك بوست.</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 4: خطة الأسبوع</span><button class="copy">انسخ</button></div>
+      <pre>/li-plan
+
+خطّطلي الأسبوع. أسبوع الشغل عندنا من الأحد للخميس، بتوقيت القاهرة. حاجات حصلت فعلًا ممكن أكتب عنها:
+- <span class="ph">[صفقة قفلناها، رقم، غلطة، حاجة بنيناها، نقاش حصل]</span>
+- <span class="ph">[حاجة تانية]</span>
+- <span class="ph">[حاجة تالتة]</span>
+
+الـ 3 أو 4 مواضيع اللي عايز أتعرف بيها: <span class="ph">[مواضيعك]</span>. ودول 10 لـ 20 شخص أو شركة عايز يشوفوني: <span class="ph">[الأسامي]</span>.</pre>
+    </div>
+    <p>هتاخد 4 بوستات للأسبوع، كل واحد بيومه وساعته وصيغة الـ hook بتاعته، ومعاهم الـ 10 أشخاص اللي تتفاعل معاهم:</p>
+    <ul>
+      <li><b>5 للانتشار:</b> ناس عندهم الجمهور اللي إنت عايزه.</li>
+      <li><b>3 زملاء:</b> في نفس مستواك، وهيعلّقوا عندك زي ما بتعلّق عندهم.</li>
+      <li><b>2 عملاء:</b> ناس ممكن فعلًا يشغّلوك.</li>
+    </ul>
+    <div class="callout tip">
+      <span class="label">ليه قلنا «من الأحد للخميس»؟</span>
+      <p>الـ skill من غير ما تقولها بتقترح التلات للخميس الصبح، على أسبوع شغل أمريكي. عشان كده البرومبت بيقولها أسبوعنا وتوقيتنا. وهي نفسها هتقولك إن الساعة أهم منها كتير أول سطر قوي.</p>
+    </div>
+
+    <!-- ===== step 5 ===== -->
+    <h2 id="post"><span class="n">5</span>اكتب البوست</h2>
+    <p>قوله «اكتب بوست الأحد» بعد الخطة، أو ابدأ من أي فكرة:</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 5: اكتب بوست</span><button class="copy">انسخ</button></div>
+      <pre>/li-post
+
+اكتب بوست عن <span class="ph">[فكرتك]</span>. الحاجة الحقيقية اللي ورا الفكرة: <span class="ph">[إيه اللي حصل، ولمين، وكلّف أو كسّب كام]</span>.</pre>
+    </div>
+    <p>هتاخد 3 hooks، والبوست كامل بعد ما عدّى على الـ humanizer، وتحته ملخص صغير: الـ hook اللي اتستخدم، والطول، ودرجة الـ human score. انسخه ونزّله على LinkedIn، وبعدين رد عليه بـ «yes» عشان يسجّل إنه اتنشر.</p>
+    <div class="callout tip">
+      <span class="label">حط اللينكات في أول كومنت</span>
+      <p>الـ skill بتبعد اللينكات عن البوست نفسه، عشان LinkedIn بيوصّل البوستات اللي فيها لينكات برّه لناس أقل. نزّل البوست الأول، وبعدين حط اللينك في أول كومنت ليك.</p>
+    </div>
+
+    <!-- ===== step 6 ===== -->
+    <h2 id="repurpose"><span class="n">6</span>حوّل فيديو أو newsletter لبوستات</h2>
+    <p>دي أكتر skill هتفيدك لو بتعمل محتوى في مكان تاني. الصق transcript أو newsletter أو مقال:</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 6: Repurpose</span><button class="copy">انسخ</button></div>
+      <pre>/li-repurpose
+
+حوّل ده لأسبوع بوستات على LinkedIn:
+<span class="ph">[الصق الـ transcript أو الـ newsletter أو المقال]</span></pre>
+    </div>
+    <p>هيطلّعلك كل اللي لقاه الأول (الآراء، الأرقام، القصص، الغلطات، والجمل اللي تتقال)، وبعدين يخطط حوالي 4 بوستات على الأسبوع، كل واحد بـ hook مختلف. قوله «اكتب بوست الأحد» وهو يكتبهم واحد واحد، عشان ميطلعوش شبه بعض.</p>
+    <p>لو فيديو YouTube: تحت الفيديو دوس <b>…more</b>، وبعدين <b>Show transcript</b>، وانسخ النص.</p>
+
+    <!-- ===== step 7 ===== -->
+    <h2 id="leads"><span class="n">7</span>حوّل الكومنتات والرسايل لعملاء</h2>
+    <p>هنا الـ leads الدافية بتطلع. انسخ الكومنتات اللي على بوستك، أو اعمل screenshot:</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 7: الرد على الكومنتات</span><button class="copy">انسخ</button></div>
+      <pre>/li-reply
+
+دي الكومنتات اللي على بوستي عن <span class="ph">[الموضوع]</span>:
+<span class="ph">[الصق الكومنتات أو ارفع screenshots]</span></pre>
+    </div>
+    <p>أي حد بيوصف مشكلة إنت بتحلها بيتعلّم عليه lead. بياخد رد كامل قدام الناس، وفي آخره سطر واحد بتعرض فيه المساعدة. اعمل ده في أول ساعة بعد ما تنزّل، لأن الردود ساعتها بتساعد البوست يوصل أكتر.</p>
+    <p>ولما تحب تكلّم حد بشكل مباشر:</p>
+    <div class="prompt">
+      <div class="prompt-head"><span class="t"><small>PROMPT</small>البرومبت 8: طلب تواصل ومتابعة</span><button class="copy">انسخ</button></div>
+      <pre>/li-dm
+
+عايز أتواصل مع <span class="ph">[الاسم، المسمى، الشركة]</span>. سبب إني أكلمه دلوقتي: <span class="ph">[بوست كتبه، حاجة شركته عملتها، حد نعرفه إحنا الاتنين]</span>. واللي بتمناه: <span class="ph">[مكالمة، ترشيح، شغل]</span>.</pre>
+    </div>
+    <p>هتاخد رسالة طلب التواصل بعدد حروفها، وأول رسالة تبعتها بعد ما يقبل بيوم، ورسالتين متابعة (بعد 4 أيام وبعد 10 أيام). ولو مفيش سبب حقيقي تكلّمه النهارده، هيقولك.</p>
+    <div class="callout warn">
+      <span class="label">ابعت كل حاجة بإيدك</span>
+      <p>متحطش الرسايل دي في أداة automation. LinkedIn بيمنع طلبات التواصل والرسايل الأوتوماتيك، والـ skill بتنصحك متبعتش أكتر من 20 طلب تواصل في اليوم عشان حسابك ميتقفلش.</p>
+    </div>
+
+    <!-- ===== routine ===== -->
+    <h2 id="routine">روتينك الأسبوعي</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>إمتى</th><th>الأمر</th><th>الوقت</th></tr></thead>
+      <tbody>
+        <tr><td>الأحد الصبح</td><td><span class="agent">/li-plan</span> للأسبوع</td><td>10 دقايق</td></tr>
+        <tr><td>قبل كل بوست</td><td><span class="agent">/li-post</span> أو <span class="agent">/li-carousel</span></td><td>10 دقايق</td></tr>
+        <tr><td>كل يوم قبل ما تنزّل</td><td><span class="agent">/li-comment</span> على الـ 10 أشخاص بتوعك</td><td>20 دقيقة</td></tr>
+        <tr><td>أول ساعة بعد البوست</td><td><span class="agent">/li-reply</span> على الكومنتات</td><td>10 دقايق</td></tr>
+        <tr><td>كذا مرة في الأسبوع</td><td><span class="agent">/li-inbox</span> على الرسايل</td><td>10 دقايق</td></tr>
+        <tr><td>لما تحب تكلّم حد</td><td><span class="agent">/li-dm</span></td><td>5 دقايق</td></tr>
+        <tr><td>لما تنزّل فيديو أو newsletter</td><td><span class="agent">/li-repurpose</span></td><td>15 دقيقة</td></tr>
+        <tr><td>مرة في الشهر</td><td><span class="agent">/li-audit</span> على ملف الـ analytics</td><td>20 دقيقة</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ===== troubleshooting ===== -->
+    <h2 id="faq">لو حاجة مش شغالة</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>المشكلة</th><th>الحل</th></tr></thead>
+      <tbody>
+        <tr><td>أوامر <code>/li-</code> مش ظاهرة</td><td>اقفل Claude Code وافتحه تاني. واتأكد إن الفولدرات في <code>~/.claude/skills/</code> أو في <code>.claude/skills/</code> جوه الـ project. ولو سطّبتها plugin، ممكن تلاقي الأوامر باسم <code>/linkedin-agent:li-post</code>.</td></tr>
+        <tr><td>error في Python وهو بيعمل humanize</td><td>قول لـ Claude: «اتأكد إن Python 3 متسطّب، وشغّل humanize.py على بوست تجربة».</td></tr>
+        <tr><td>البوستات مش شبهي</td><td>زوّد 3 بوستات كمان في <code>voice.md</code>، والكلمات اللي عمرك ما تقولها.</td></tr>
+        <tr><td>الـ humanizer بيشيل كلمة أنا بستخدمها فعلًا</td><td>امسحها من <code>slop.json</code> في فولدر <code>li-human</code>.</td></tr>
+        <tr><td>المسودة فيها <code>{{your number}}</code></td><td>محتاج رقم حقيقي منك، ومش هيألّفه. املاه إنت.</td></tr>
+        <tr><td>مش بيفتح لينك LinkedIn</td><td>ده مقصود، هو مبيقراش LinkedIn بدالك. الصق النص أو ابعت screenshot.</td></tr>
+        <tr><td><code>/li-carousel</code> معملش PDF</td><td>هو بيعمل الـ PDF بس بعد ما توافق على كلام السلايدز. قوله «تمام، اعمل الـ PDF».</td></tr>
+        <tr><td>على claude.ai مش لاقي Skills في الإعدادات</td><td>شغّل <b>Code execution and file creation</b> من <b>Settings ← Capabilities</b> الأول. ولو حسابك Team أو Enterprise، كلّم الـ admin.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout dark">
+      <span class="label">الكريديت</span>
+      <p>الـ LinkedIn Agent Skill من عمل <b>Jake Schincariol</b>، ومنشورة برخصة MIT على <a href="https://github.com/Jakeschincariol/linkedin-agent-skill" target="_blank" rel="noopener"><bdi>github.com/Jakeschincariol/linkedin-agent-skill</bdi></a>. الشرح والترجمة والأمثلة المصرية من Grow With Khalaf. إحنا مش تبع Jake ولا Anthropic ولا LinkedIn، ومش مسؤولين عن أي تحديث أو تغيير في الريبو الأصلي.</p>
+    </div>
+
+  </article>
+
+  <aside class="toc">
+    <h4>في الصفحة دي</h4>
+    <ol data-toc></ol>
+  </aside>
+</div>
+
+<section class="end">
+  <div class="in">
+    <div>
+      <h3>تابع Grow With Khalaf عشان أدوات زي دي</h3>
+      <p>كل أداة أو skill جديدة بتنزل في ريل الأول، والشرح الكامل بيبقى هنا.</p>
+    </div>
+    <div class="row">
+      <a class="btn btn-cyan" href="https://github.com/Jakeschincariol/linkedin-agent-skill" target="_blank" rel="noopener">الريبو الأصلي على GitHub</a>
+    </div>
+  </div>
+  <div class="foot">Guide © 2026 Grow With Khalaf · Skills by Jake Schincariol, MIT License · Not affiliated with Jake Schincariol, Anthropic or LinkedIn</div>
+</section>
+
+<script>
+// Table of contents, built from the h2s so the two copies never drift.
+const heads = [...document.querySelectorAll('article h2[id]')];
+document.querySelectorAll('[data-toc]').forEach(list => {
+  heads.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.replace(/^\d+/, m => 'خطوة ' + m + ': ');
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+});
+const tocLinks = [...document.querySelectorAll('aside.toc a')];
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    tocLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  });
+}, {rootMargin: '-90px 0px -70% 0px'});
+heads.forEach(h => spy.observe(h));
+
+// Label each cell with its column header, for the stacked phone layout.
+document.querySelectorAll('.tbl table').forEach(t => {
+  const labels = [...t.querySelectorAll('thead th')].map(th => th.textContent);
+  t.querySelectorAll('tbody tr').forEach(tr => [...tr.children].forEach((td, i) => td.dataset.l = labels[i]));
+});
+
+// Install tabs.
+const tabs = [...document.querySelectorAll('[role=tab]')];
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(o => {
+    o.setAttribute('aria-selected', o === t);
+    document.getElementById(o.getAttribute('aria-controls')).hidden = o !== t;
+  });
+}));
+if (location.hash === '#code') document.getElementById('t-code').click();
+
+// Copy buttons copy the plain text of the block below them.
+document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => {
+  const text = b.closest('.prompt, .code').querySelector('pre').innerText;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const ta = Object.assign(document.createElement('textarea'), {value: text});
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+  }
+  b.textContent = 'اتنسخ ✓'; b.classList.add('done');
+  setTimeout(() => { b.textContent = 'انسخ'; b.classList.remove('done'); }, 1600);
+}));
+</script>
+</body>
+</html>
