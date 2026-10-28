@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="docs/assets/og.png" alt="LinkedIn Agent Skill: شرح بالمصري من Grow With Khalaf" width="100%">
+  <img src="docs/assets/og.png" alt="LinkedIn Agent Skill: شرح من Grow With Khalaf" width="100%">
 </p>
 
 <div dir="rtl">
 
-# LinkedIn Agent Skill: الشرح بالمصري
+# LinkedIn Agent Skill: الشرح
 
-ده شرح من **Grow With Khalaf** بالمصري لـ [LinkedIn Agent Skill](https://github.com/Jakeschincariol/linkedin-agent-skill)، وهي 11 skill ببلاش لـ Claude من عمل **Jake Schincariol**. بتكتبلك بوستات LinkedIn، وتقيّم بروفايلك من 100، وتخطط أسبوعك، وتساعدك ترد على الكومنتات والرسايل.
+ده شرح من **Grow With Khalaf** لـ [LinkedIn Agent Skill](https://github.com/Jakeschincariol/linkedin-agent-skill)، وهي 11 skill ببلاش لـ Claude من عمل **Jake Schincariol**. بتكتبلك بوستات LinkedIn، وتقيّم بروفايلك من 100، وتخطط أسبوعك، وتساعدك ترد على الكومنتات والرسايل.
 
 **الدليل الكامل وطريقة التسطيب خطوة بخطوة: [mohamedkhalafalla.github.io/gwk-linkedin-agent](https://mohamedkhalafalla.github.io/gwk-linkedin-agent/)**
 
@@ -60,4 +60,4 @@ cp -r linkedin-agent-skill/skills/li-* ~/.claude/skills/
 
 ---
 
-**English:** An Egyptian Arabic install guide by Grow With Khalaf for Jake Schincariol's [LinkedIn Agent Skill](https://github.com/Jakeschincariol/linkedin-agent-skill) (MIT). All skills are his work. This repo only adds the guide page and unmodified claude.ai upload zips that keep his license. Not affiliated with Jake Schincariol, Anthropic or LinkedIn.
+**English:** An Arabic install guide by Grow With Khalaf for Jake Schincariol's [LinkedIn Agent Skill](https://github.com/Jakeschincariol/linkedin-agent-skill) (MIT). All skills are his work. This repo only adds the guide page and unmodified claude.ai upload zips that keep his license. Not affiliated with Jake Schincariol, Anthropic or LinkedIn.
